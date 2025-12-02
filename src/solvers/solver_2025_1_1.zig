@@ -29,34 +29,24 @@ const Safe = struct {
         self.dial_arrow = @intCast(new_arrow);
     }
 
-    pub fn rotateRightWithWrap(self: *Safe, clicks: isize) void {
-        const tmp_arrow: isize = @intCast(self.dial_arrow);
-        const absolute_end = tmp_arrow + clicks;
-        const wrap_count = @divFloor(absolute_end, 100) - @divFloor(tmp_arrow, 100);
-        const new_arrow = @mod(@mod(absolute_end, 100) + 100, 100);
-        self.dial_arrow = @intCast(new_arrow);
-        // if (new_arrow == 0) {
-        //     wrap_count += 1;
-        // }
-        if (wrap_count > 0) {
-            self.password += @intCast(wrap_count);
-        }
-        std.debug.print("wrapped {d} times when rotating right\n", .{wrap_count});
+    // not working 😭
+    pub fn rotateRightWithCounter(self: *Safe, clicks: isize) void {
+        const arrow_start = @as(isize, @intCast(self.dial_arrow));
+        const arrow_end = arrow_start + clicks;
+        const wraps = @divTrunc(arrow_start + clicks, 100);
+        self.dial_arrow = @intCast(@mod(@mod(arrow_end, 100) + 100, 100));
+        self.password += @intCast(wraps);
+        std.debug.print("wrapped {d} times when rotating right\n", .{wraps});
     }
 
-    pub fn rotateLeftWithWrap(self: *Safe, clicks: isize) void {
-        const tmp_arrow: isize = @intCast(self.dial_arrow);
-        const absolute_end = tmp_arrow - clicks;
-        const wrap_count = @divFloor(tmp_arrow, 100) - @divFloor(absolute_end, 100);
-        const new_arrow = @mod(@mod(absolute_end, 100) + 100, 100);
-        self.dial_arrow = @intCast(new_arrow);
-        // if (new_arrow == 0) {
-        //     wrap_count += 1;
-        // }
-        if (wrap_count > 0) {
-            self.password += @intCast(wrap_count);
-        }
-        std.debug.print("wrapped {d} times when rotating left\n", .{wrap_count});
+    // not working 😭
+    pub fn rotateLeftWithCounter(self: *Safe, clicks: isize) void {
+        const arrow_start = @as(isize, @intCast(self.dial_arrow));
+        const arrow_end = arrow_start - clicks;
+        const wraps = @max(0, @divTrunc(clicks - arrow_start + 99, 100));
+        self.dial_arrow = @intCast(@mod(@mod(arrow_end, 100) + 100, 100));
+        self.password += @intCast(wraps);
+        std.debug.print("wrapped {d} times when rotating left\n", .{wraps});
     }
 };
 
@@ -106,9 +96,9 @@ pub fn solve_part_2(input: []const u8) !u16 {
         );
 
         if (direction == 'R') {
-            safe.rotateRightWithWrap(clicks);
+            safe.rotateRightWithCounter(clicks);
         } else if (direction == 'L') {
-            safe.rotateLeftWithWrap(clicks);
+            safe.rotateLeftWithCounter(clicks);
         }
 
         std.debug.print(
