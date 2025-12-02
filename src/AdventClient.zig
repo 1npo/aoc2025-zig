@@ -30,7 +30,13 @@ fn getSessionToken(advent_client: *AdventClient) ![]u8 {
             "Unable to get AOC_SESSION_TOKEN from the environment: {s}\n",
             .{@errorName(err)},
         );
-        return err;
+        std.debug.print(
+            "A session token is required to use AdventClient. Please get your session " ++
+                "token and save it to the AOC_SESSION_TOKEN environment variable, " ++
+                "then try again.",
+            .{},
+        );
+        std.process.exit(1);
     };
 
     std.debug.print("Using AOC_SESSION_TOKEN={s}\n", .{session_token});
