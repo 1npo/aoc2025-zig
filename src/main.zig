@@ -1,6 +1,8 @@
 const std = @import("std");
 const AdventClient = @import("AdventClient.zig");
 
+const temp_solver = @import("solvers/solver_2025_1_1.zig");
+
 // The user is required to provide the year and day of the puzzle to solve as the first
 // and second CLI arguments. The program will exit if there was an issue getting a valid
 // year and day from the user.
@@ -107,4 +109,8 @@ pub fn main() !void {
 
     std.debug.print("input={s}\n", .{input.?});
     std.debug.print("cache_dir={s}\n", .{advent_client.cache_dir orelse ""});
+
+    // TODO: Implement a dynamic solver
+    const password: u16 = try temp_solver.solve_part_2(input.?);
+    std.debug.print("password={d}\n", .{password});
 }
