@@ -1,5 +1,6 @@
 const std = @import("std");
 const AdventClient = @import("AdventClient.zig");
+const utils = @import("utils.zig");
 
 const temp_solver = @import("solvers/solver_2025_2.zig");
 
@@ -111,6 +112,14 @@ pub fn main() !void {
     std.debug.print("cache_dir={s}\n", .{advent_client.cache_dir orelse ""});
 
     // TODO: Implement a dynamic solver
-    _ = try temp_solver.solvePart1(allocator, input.?);
-    _ = try temp_solver.solvePart2(allocator, input.?);
+    // _ = try temp_solver.solvePart1(allocator, input.?);
+    // _ = try temp_solver.solvePart2(allocator, input.?);
+    const part1_duration = try utils.measureRuntime(temp_solver.solvePart1, allocator, input.?);
+    const part2_duration = try utils.measureRuntime(temp_solver.solvePart2, allocator, input.?);
+
+    const part1_time = try part1_duration.printDuration(allocator);
+    const part2_time = try part2_duration.printDuration(allocator);
+
+    std.debug.print("Got part 1 answer in {s}\n", .{part1_time});
+    std.debug.print("Got part 2 answer in {s}\n", .{part2_time});
 }
