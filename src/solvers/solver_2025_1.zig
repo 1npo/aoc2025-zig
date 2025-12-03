@@ -19,38 +19,38 @@ const Safe = struct {
 
     pub fn rotateRight(self: *Safe, clicks: isize) void {
         const tmp_arrow: isize = @intCast(self.dial_arrow);
-        const new_arrow = @mod(@mod(tmp_arrow + clicks, 100) + 100, 100);
+        const new_arrow = @mod(tmp_arrow + clicks, 100);
         self.dial_arrow = @intCast(new_arrow);
     }
 
     pub fn rotateLeft(self: *Safe, clicks: isize) void {
         const tmp_arrow: isize = @intCast(self.dial_arrow);
-        const new_arrow = @mod(@mod(tmp_arrow - clicks, 100) + 100, 100);
+        const new_arrow = @mod(tmp_arrow - clicks, 100);
         self.dial_arrow = @intCast(new_arrow);
     }
 
     // not working 😭
     pub fn rotateRightWithCounter(self: *Safe, clicks: isize) void {
-        const arrow_start = @as(isize, @intCast(self.dial_arrow));
-        const arrow_end = arrow_start + clicks;
-        const wraps = @divTrunc(arrow_start + clicks, 100);
-        self.dial_arrow = @intCast(@mod(@mod(arrow_end, 100) + 100, 100));
+        const tmp_arrow: isize = @intCast(self.dial_arrow);
+        const new_arrow = @mod(tmp_arrow + clicks, 100);
+        const wraps = @divTrunc(tmp_arrow + clicks, 100);
+        self.dial_arrow = @intCast(new_arrow);
         self.password += @intCast(wraps);
         std.debug.print("wrapped {d} times when rotating right\n", .{wraps});
     }
 
     // not working 😭
     pub fn rotateLeftWithCounter(self: *Safe, clicks: isize) void {
-        const arrow_start = @as(isize, @intCast(self.dial_arrow));
-        const arrow_end = arrow_start - clicks;
-        const wraps = @max(0, @divTrunc(clicks - arrow_start + 99, 100));
-        self.dial_arrow = @intCast(@mod(@mod(arrow_end, 100) + 100, 100));
+        const tmp_arrow: isize = @intCast(self.dial_arrow);
+        const new_arrow = @mod(tmp_arrow - clicks, 100);
+        const wraps = @max(0, @divTrunc(clicks - tmp_arrow + 99, 100));
+        self.dial_arrow = @intCast(new_arrow);
         self.password += @intCast(wraps);
         std.debug.print("wrapped {d} times when rotating left\n", .{wraps});
     }
 };
 
-pub fn solve_part_1(input: []const u8) !u16 {
+pub fn solvePart1(input: []const u8) !u16 {
     var safe = Safe.init();
     std.debug.print("initial position of dial_arrow = {d}\n", .{safe.dial_arrow});
 
@@ -78,7 +78,7 @@ pub fn solve_part_1(input: []const u8) !u16 {
     return password;
 }
 
-pub fn solve_part_2(input: []const u8) !u16 {
+pub fn solvePart2(input: []const u8) !u16 {
     var safe = Safe.init();
     std.debug.print("initial position of dial_arrow = {d}\n", .{safe.dial_arrow});
 
