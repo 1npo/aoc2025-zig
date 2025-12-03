@@ -8,7 +8,6 @@ fn idIsPairOfEqualSequences(allocator: std.mem.Allocator, id: u64) !?u64 {
     if (id_string.len % 2 != 0) return null;
     const first = id_string[0 .. id_string.len / 2];
     const last = id_string[id_string.len / 2 ..];
-    if (first[0] == '0') return null;
     if (std.mem.eql(u8, first, last)) return id;
     return null;
 }
