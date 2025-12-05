@@ -53,7 +53,6 @@ fn isRollForkliftAccessible(
 }
 
 fn solvePuzzle(allocator: std.mem.Allocator, input: []const u8, part: Part) !Solution {
-    // 5. If the result is true, increment the invalid_ids counter
     var it = std.mem.splitSequence(u8, input, "\n");
     var diagram: std.ArrayList([]u8) = .empty;
     var diagram_new: std.ArrayList([]u8) = .empty;
