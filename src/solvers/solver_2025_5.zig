@@ -9,9 +9,9 @@ const DatabaseFile = struct {
 };
 
 fn getDatabaseFile(allocator: std.mem.Allocator, input: []const u8) !DatabaseFile {
-    var it = std.mem.splitSequence(u8, input, "\n");
     var ranges: std.ArrayList(Range) = .empty;
     var ingredients: std.ArrayList(u128) = .empty;
+    var it = std.mem.splitSequence(u8, input, "\n");
 
     while (it.next()) |line| {
         if (line.len == 0) continue;
