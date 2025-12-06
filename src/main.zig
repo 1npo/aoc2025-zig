@@ -2,7 +2,7 @@ const std = @import("std");
 const AdventClient = @import("AdventClient.zig");
 const utils = @import("utils.zig");
 
-const temp_solver = @import("solvers/solver_2025_5.zig");
+const temp_solver = @import("solvers/solver_2025_6.zig");
 
 // The user is required to provide the year and day of the puzzle to solve as the first
 // and second CLI arguments. The program will exit if there was an issue getting a valid
